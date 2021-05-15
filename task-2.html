@@ -1,0 +1,55 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Document</title>
+</head>
+
+<body>
+    <script>
+        function createProduct(id, description, quantity, pricePerUnit) {
+            return {
+                id,
+                description,
+                quantity,
+                pricePerUnit
+            };
+        }
+
+        function createBasket(products, client, creationDate, deliveryAddress) {
+
+            return {
+                products,
+                client,
+                creationDate,
+                payments: null,
+                deliveryAddress,
+                basketTotalPrice: null,
+                calcTotalPrice() {
+                    totalPrice = 0;
+                    this.products.forEach(product => {
+                        totalPrice += product.quantity * product.pricePerUnit;
+                    });
+                    this.basketTotalPrice = totalPrice;
+                    return totalPrice;
+                },
+                addProduct(product) {
+                    this.products.push(product);
+                }
+            }
+        };
+        basket = createBasket([], "my client", "10-10-2021", "to Grandfather in the village");
+        basket.addProduct(createProduct(1, "meet", 2, 400));
+        basket.addProduct(createProduct(2, "milk", 3, 30));
+        basket.addProduct(createProduct(3, "pen", 6, 10));
+        basket.addProduct(createProduct(4, "pencil", 2, 5));
+        basket.addProduct(createProduct(5, "paper", 1, 200));
+        console.log(basket);
+        console.log((basket.calcTotalPrice()));
+    </script>
+</body>
+
+</html>
