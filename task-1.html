@@ -1,0 +1,27 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <link rel="stylesheet" href="task-1.css">
+    <title>Document</title>
+</head>
+
+<body>
+    <div class="board"></div>
+    <script>
+        let board = document.querySelector(".board");
+        let isBlack = true;
+        let board_html = "";
+        for (let i = 0; i < 64; i++) {
+            board_html += `<div class = "${isBlack ? "black" : ""} cell"></div>`
+            isBlack = !isBlack;
+            if ((i + 1) % 8 == 0) isBlack = !isBlack;
+        }
+        board.innerHTML = board_html;
+    </script>
+</body>
+
+</html>
