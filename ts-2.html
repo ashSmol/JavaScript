@@ -34,8 +34,8 @@
       function addProduct(){
         let product = makeProduct();
         let products = document.querySelector(".products");
-        let productsHtml = products.innerHTML;
-        productsHtml = `<div class="product">${product.description} ${product.price} </div><br><button class="addToBasket">Add to basket</button><br>`;
+        
+        products.innerHTML += `<div class="product">${product.description} ${product.price} </div><br><button class="addToBasket">Add to basket</button><br>`;
         alert(productsHtml);
       }
       let addProductElem = document.querySelector(".addProduct");
