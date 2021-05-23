@@ -1,0 +1,49 @@
+.cells {
+  height: 640px;
+  width: 640px;
+  border: solid black 1px;
+  display: flex;
+  flex-wrap: wrap;
+}
+
+.cell {
+  height: 80px;
+  width: 80px;
+}
+
+.black_ {
+  background-color: black;
+}
+
+.letters {
+  width: 640px;
+  height: 15px;
+  display: flex;
+  flex-wrap: wrap;
+   margin-left: 15px; 
+}
+
+.letterCell {
+  width: 80px;
+  text-align: center;
+}
+
+.container {
+  display: flex;
+  flex-direction: row;
+}
+
+.numberCells {
+  height: 640px;
+  width: 15px;
+  display: flex;
+  flex-wrap: wrap;
+  flex-direction:column;
+}
+
+.numberCell {
+  height: 80px;
+  width: 15px;
+  box-sizing: border-box;
+  padding-top: 33px;
+}
