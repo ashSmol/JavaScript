@@ -1,47 +1,113 @@
 <html>
 
-  <head>
-    <title>task-1</title>
-    <link rel="stylesheet" type="text/css" href="ts-2.css">
-  </head>
+<head>
+  <title>task-1</title>
+  <link rel="stylesheet" type="text/css" href="ts-2.css">
+</head>
 
-  <body>
-    <div class="addProductForm">
-      <label for="productDescription">Product description: </label>
-      <input type="text" class="productDescription" placeholder="description">
+<body>
+  <div class="container">
+    <div class="catalogue">
+      <label for="product__name">Product name: </label>
+      <input type="text" class="product__name" placeholder="Name of product">
       <br>
       <br>
       <label for="productPrice">Product Price: </label>
-      <input type="text" class="productPrice">
+      <input type="text" class="product__price">
       <br>
       <br>
-      <button class="addProduct">Add product</button>
+      <button class="add__product">Add product</button>
       <br>
       <br>
-    </div>
-
-    <div class="container">
       <div class="products"></div>
-      <div class="basket"></div>
     </div>
-    <script type="text/javascript">
-      function makeProduct(){
-        return{
-          description:document.querySelector(".productDescription").value,
-          price:document.querySelector(".productPrice").value
-        }
-      }
-      function addProduct(){
-        let product = makeProduct();
-        let products = document.querySelector(".products");
-        
-        products.innerHTML += `<div class="product">${product.description} ${product.price} </div><br><button class="addToBasket">Add to basket</button><br>`;
-        alert(productsHtml);
-      }
-      let addProductElem = document.querySelector(".addProduct");
-      addProductElem.addEventListener("click",addProduct);
+    <div class="basket"></div>
+  </div>
+  <script type="text/javascript">
 
-    </script>
-  </body>
+    const catalogue = {
+
+      products: [],
+
+      addProdut(product) {
+        this.products.push(product);
+      },
+
+      showProducts() {
+
+        let html = "";
+        this.products.forEach((product) => {
+          html += `<div class = "product">Наименование: ${product.name} <br>Цена: ${product.price} <br><button id="${product.id}">Купить</button></div>`
+        })
+        document.querySelector(".products").innerHTML = "";
+        document.querySelector(".products").innerHTML = html;
+      },
+
+      addProductToCatalogue() {
+        let product = createProductObject(document.querySelector(".product__name").value,
+          document.querySelector(".product__price").value);
+        catalogue.products.push(product);
+        catalogue.showProducts();
+      },
+
+      getProductById(id) {
+        return catalogue.products[id]
+      }
+    };
+
+    function createProductObject(name, price) {
+      let id = catalogue.products.length;
+      return {
+        id,
+        name,
+        price
+      }
+    };
+
+    const basket = {
+
+      productsCount: 0,
+      totalPrice: 0,
+      products: [],
+
+      calcTotalPrice() {
+        let sum = 0;
+        this.products.forEach((product) => {
+          sum += +product.price;
+        });
+        this.totalPrice = sum;
+      },
+
+      addToBasket(product) {
+        basket.products.push(product);
+        this.calcTotalPrice();
+        this.updateBasketText();
+
+      },
+
+      updateBasketText() {
+        this.htmlText = "";
+        if (basket.products.length === 0) this.htmlText = "Корзина пуста";
+        else {
+          this.htmlText = `В корзине ${this.products.length} товаров (а). \n Цена товаров в корзине: ${this.totalPrice}`
+        }
+        document.querySelector(".basket").innerHTML = "";
+        document.querySelector(".basket").innerHTML = this.htmlText;
+      }
+    };
+
+
+
+    catalogue.showProducts();
+    document.querySelector(".add__product").addEventListener("click", catalogue.addProductToCatalogue);
+    document.querySelector(".products").addEventListener("click", (event) => {
+      if (event.target.tagName != 'BUTTON') return;
+      console.log(event.target.id);
+      basket.addToBasket(catalogue.getProductById(event.target.id))
+      console.log(basket.products);
+    });
+    // window.onload = catalogue.showProducts;
+  </script>
+</body>
 
 </html>
