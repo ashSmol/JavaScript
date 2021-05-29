@@ -1,0 +1,34 @@
+.container{
+    display: flex;
+}
+
+.catalogue{
+    background-color: burlywood;
+    border: black 1px solid;
+    margin: 10px;
+    width: 50%;
+}
+
+.basket{
+    background-color:aquamarine;
+    border: black 1px solid;
+    margin: 10px;
+    width: 50%;
+}
+
+.basket__view{
+    border: black 1px solid;
+}
+
+.products__view{
+    border: black 1px solid;
+}
+
+.image{
+    width: 100px;
+    height: 100px;
+}
+
+.product{
+    border: solid black 1px;
+}
