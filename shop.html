@@ -62,18 +62,28 @@
             }
         };
 
+        function createImages(images) {
+            let imagesHtml = "";
+            images.forEach(image => {
+                imagesHtml += `<img class="image" src="${image[0]}" data-fullImgSrc = "${image[1]}" alt="картинка">`;
+            })
+            return imagesHtml;
+        }
+
         function createProduct(id, name, price, images) {
-            return { name, price, images };
+            return { id, name, price, images };
         };
 
-        const carrot = createProduct(1, "морковь", 5, `<img class="image" src="min/2.jpg" alt="картинка" data-fullImgSrc="max/morkov_v_parovarke-75995.jpg">
-            <img class="image" src="min/carrot.jpg" alt="картинка" data-fullImgSrc="max/carrot.jpeg">`);
 
-        const cucumber = createProduct(2, "огурец", 10, `<img class="image" src="min/cucumber1.jpg" alt="картнка" data-fullImgSrc="max/cucmber1.jpeg">
-            <img class="image" src="min/cucumber2.jpg" alt="картинка" data-fullImgSrc="max/cucmber2.jpeg">`);
 
-        const tomato = createProduct(3, "помидор", 15, `<img class="image" src="min/tomato1.jpg" alt="картинка" data-fullImageSrc="max/tomato1.jpg"> <img class="image" src="min/tomato2.jpg"
-            alt="картинка" data-fullImageSrc="max/tomato2.jpg">`);
+        const carrot = createProduct(1, "морковь", 5, [["min/2.jpg", "max/morkov_v_parovarke-75995.jpg"],
+        ["min/carrot.jpg", "max/carrot.jpeg"]]);
+
+        const cucumber = createProduct(2, "огурец", 10, [["min/cucumber1.jpg", "max/cucmber1.jpeg"],
+        ["min/cucumber2.jpg", "max/cucmber2.jpeg"]]);
+
+        const tomato = createProduct(3, "помидор", 15, [["min/tomato1.jpg", "max/tomato1.jpg"],
+        ["min/tomato2.jpg", "max/tomato2.jpg"]]);
 
         let catalogue = [carrot, cucumber, tomato];
 
@@ -84,7 +94,7 @@
                 <div class = "product">
                     <h3>${product.name}</h3>
                     <div>Цена: ${product.price}</div>
-                    <div class="images">${product.images}</div>
+                    <div class="images">${createImages(product.images)}</div>
                     <div class = "add__to__basket__btn"><button id = ${product.id} >Купить</button></div>
                 </div>    
                 `
