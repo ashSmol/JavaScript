@@ -1,34 +1,46 @@
-.container{
+*{
+    margin: 0;
+    padding: 0;
+    background: #2e353d;
+}
+.menuButton{
+    width: 150px;
+    padding: 15px;
+    margin: 10px;
+    color: white;
+    background: #007b32;
+    text-align: center;
+    cursor: pointer;
+}
+.menuButton:hover{
+    background: #009641;
+}
+#game{
+    border-collapse: collapse;
+    margin: 2% auto 0;
+}
+#menu{
     display: flex;
+    justify-content: center;
 }
-
-.catalogue{
-    background-color: burlywood;
-    border: black 1px solid;
-    margin: 10px;
-    width: 50%;
+td.cell{
+    width: 20px;
+    height: 20px;
+    border: 1px dotted #eee;
+    border-collapse: collapse;
 }
-
-.basket{
-    background-color:aquamarine;
-    border: black 1px solid;
-    margin: 10px;
-    width: 50%;
+.food{
+    background: #00d021;
 }
-
-.basket__view{
-    border: black 1px solid;
+.snakeBody{
+    background: #e5e5e5;
 }
-
-.products__view{
-    border: black 1px solid;
+.snakeHead{
+    background: #9b0013;
 }
-
-.image{
-    width: 100px;
-    height: 100px;
+.disabled {
+    background: #7c7c7c;
 }
-
-.product{
-    border: solid black 1px;
+.disabled:hover{
+    background: #7c7c7c;
 }
