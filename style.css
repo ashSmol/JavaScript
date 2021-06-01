@@ -44,3 +44,12 @@ td.cell{
 .disabled:hover{
     background: #7c7c7c;
 }
+.count{
+    display: inline-block;
+    width: 150px;
+    padding: 15px;
+    margin: 10px;
+    color: white;
+    background: #007b32;
+    text-align: center;
+}
