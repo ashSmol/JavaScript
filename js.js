@@ -85,7 +85,7 @@ const map = {
         }
     },
 
-    render(snakePointsArray, foodPoint) {
+    render(snakePointsArray, foodPoint, wallCells) {
         for (const cell of this.usedCells) {
             cell.className = 'cell';
         }
@@ -101,6 +101,12 @@ const map = {
         const foodCell = this.cells[`x${foodPoint.x}_y${foodPoint.y}`];
         foodCell.classList.add('food');
         this.usedCells.push(foodCell);
+
+        wallCells.forEach((point, idx) => {
+            const wall = this.cells[`x${point.x}_y${point.y}`];
+            wall.classList.add("wall");
+            this.usedCells.push(wall);
+        })
     },
 };
 
@@ -150,15 +156,15 @@ const snake = {
     getNextStepHeadPoint() {
         const firstPoint = this.getBody()[0];
 
-        switch(this.direction) {
+        switch (this.direction) {
             case 'up':
-                return {x: firstPoint.x, y: firstPoint.y - 1};
+                return { x: firstPoint.x, y: firstPoint.y - 1 };
             case 'right':
-                return {x: firstPoint.x + 1, y: firstPoint.y};
+                return { x: firstPoint.x + 1, y: firstPoint.y };
             case 'down':
-                return {x: firstPoint.x, y: firstPoint.y + 1};
+                return { x: firstPoint.x, y: firstPoint.y + 1 };
             case 'left':
-                return {x: firstPoint.x - 1, y: firstPoint.y};
+                return { x: firstPoint.x - 1, y: firstPoint.y };
         }
     },
 };
@@ -183,6 +189,43 @@ const food = {
         return this.x === point.x && this.y === point.y;
     },
 };
+
+const walls = {
+    wallCells: [],
+    reset() {
+        this.wallCells = [];
+    },
+    getWallCells() {
+        return this.wallCells;
+    },
+
+    addWallCoords(point) {
+        this.wallCells.push(point);
+    },
+
+    isOnPoint(point) {
+        return this.x === point.x && this.y === point.y;
+    },
+};
+
+
+const gameCount = {
+    count: 0,
+
+    increase() {
+        this.count++;
+        this.render();
+    },
+
+    reset() {
+        this.count = 0;
+        this.render();
+    },
+
+    render() {
+        document.querySelector(".count").innerHTML = `Счет: ${this.count}`;
+    }
+}
 
 const status = {
     condition: null,
@@ -215,6 +258,8 @@ const game = {
     food,
     status,
     tickInterval: null,
+    gameCount,
+    walls,
 
     init(userSettings = {}) {
         this.config.init(userSettings);
@@ -293,11 +338,14 @@ const game = {
         this.stop();
         this.snake.init(this.getStartSnakeBody(), 'up');
         this.food.setCoordinates(this.getRandomFreeCoordinates());
+        this.gameCount.reset();
+        this.walls.reset();
+        this.walls.addWallCoords(this.getRandomFreeCoordinates());
         this.render();
     },
 
     render() {
-        this.map.render(this.snake.getBody(), this.food.getCoordinates());
+        this.map.render(this.snake.getBody(), this.food.getCoordinates(), this.walls.getWallCells());
     },
 
     getStartSnakeBody() {
@@ -310,7 +358,7 @@ const game = {
     },
 
     getRandomFreeCoordinates() {
-        const exclude = [this.food.getCoordinates(), ...this.snake.getBody()];
+        const exclude = [this.food.getCoordinates(), ...this.snake.getBody(), ...this.walls.getWallCells()];
 
         while (true) {
             const rndPoint = {
@@ -339,7 +387,8 @@ const game = {
         if (this.food.isOnPoint(this.snake.getNextStepHeadPoint())) {
             this.snake.growUp();
             this.food.setCoordinates(this.getRandomFreeCoordinates());
-
+            this.gameCount.increase();
+            this.walls.addWallCoords(this.getRandomFreeCoordinates());
             if (this.isGameWon()) return this.finish();
         }
 
@@ -356,8 +405,8 @@ const game = {
         return !this.snake.isOnPoint(nextHeadPoint) &&
             nextHeadPoint.x < this.config.getColsCount() &&
             nextHeadPoint.y < this.config.getRowsCount() &&
-            nextHeadPoint.x > 0 &&
-            nextHeadPoint.y> 0;
+            nextHeadPoint.x >= 0 &&
+            nextHeadPoint.y >= 0;
     },
 
     stop() {
