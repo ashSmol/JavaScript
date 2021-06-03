@@ -400,13 +400,23 @@ const game = {
         return this.snake.getBody().length > this.config.getWinFoodCount();
     },
 
+    meetWalls(walls, nextHeadPoint) {
+        let meetWall = false;
+        walls.forEach((cell) => {
+            if (cell.x === nextHeadPoint.x && cell.y === nextHeadPoint.y) {
+                meetWall = true;
+            }
+        })
+        return meetWall;
+    },
+
     canSnakeMakeStep() {
         const nextHeadPoint = this.snake.getNextStepHeadPoint();
         return !this.snake.isOnPoint(nextHeadPoint) &&
             nextHeadPoint.x < this.config.getColsCount() &&
             nextHeadPoint.y < this.config.getRowsCount() &&
             nextHeadPoint.x >= 0 &&
-            nextHeadPoint.y >= 0;
+            nextHeadPoint.y >= 0 && !this.meetWalls(this.walls.getWallCells(), nextHeadPoint);
     },
 
     stop() {
